@@ -1,0 +1,35 @@
+[2020-12-26]
+React:
+    - A interface eh mais flexivel
+    - SPAs:
+        - single-page application
+        - Antes, todas as informacoes sao carregadas do zero: 
+            - elementos repetidos, como menus e tals, continuam a recarregar
+
+    - biblioteca para construcao de interfaces
+
+===============================================================================>
+
+Typescript:
+
+- Formalmente:  superset
+    - conjunto de funcionalidades sobre o JS
+- Tipagem:
+    - infere qual o tipo das coisas
+
+- Guia o desenvolvedor para entender o formato de coisas
+[Typescript]
+    interface User{
+        name: string;
+        email: string;
+        adress: {
+            city: string;
+            state: string;
+        }
+    }
+
+    function mostraDadosUsuario(user: User){
+        return `${user.name} ${user.mail}`;
+    }
+
+[end]
