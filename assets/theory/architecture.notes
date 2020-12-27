@@ -1,0 +1,26 @@
+[2020-12-26]
+Notes:
+- antigamente, aplicacao retornava todo o HTML/CSS/JS para o browser
+- nao havia divisao entre back/front
+
+browser vs server
+
+RESTful:
+- Com introducao da API
+- temos agora um intermediario, o Front-end
+
+Browser -> App Front-end -> Server Back-end
+
+O frontend le o JSON (emitido pelo servidor), utilizando-o no frontend para assim construir o front
+
+Mas por que?:
+- se for web, da na msm. mas, usando um app front-end separado + vue + angular --> grandes vantagens
+- possibilidade de decidir como construir a interface no frontend:
+    - HTML, CSS e JS sao linguagens so usadas na web
+    - Assim, na pra usar numa aplicacao mobile --> !nao vai da pra comunicar com um msm servidor!
+        - a requisicao nao funciona pq nao ta adaptado pra mobile
+
+- desacoplamento:
+    - o servidor so retorna JSON, e nao sabe como os dados vao ser renderizados na tela
+    - o front fala a msm coisa pro Backend
+    - assim, o mobile pode utilizar da msm lista de dados gerada por requisicao no servidor que o web usa 
