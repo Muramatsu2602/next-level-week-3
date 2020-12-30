@@ -22,14 +22,14 @@ app.use(express.json());
 
 // Metodos HTTP = GET, POST, PUT, DELETE
 // semantica eh oq diferencia cada um
-// GET --> buscar uma informacao 
-// POST --> criando uma informacao nova (o navegador nao acessa)
-// PUT --> editando uma informacao
+// GET    --> buscar uma informacao 
+// POST   --> criando uma informacao nova (o navegador nao acessa)
+// PUT    --> editando uma informacao
 // DELETE --> autoexplicativo 
 // Parametros 
 // - Query Params: https://localhost:3333/users?search=diago&age=28
 // - Route Params: https://localhost:3333/users/1  (identificar um recurso)
-// - Body: http: https://localhost:333/users/ ==> informacoes complexas
+// - Body        : http: https://localhost:333/users/ ==> informacoes complexas
 
 app.get('/users/:id', (request, response) => {
 
