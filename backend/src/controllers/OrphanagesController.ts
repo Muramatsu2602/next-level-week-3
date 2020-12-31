@@ -8,7 +8,9 @@ export default {
     async index(request: Request, response: Response) {
         const orphanagesRepository = getRepository(Orphanage);
 
-        const orphanages = await orphanagesRepository.find();
+        const orphanages = await orphanagesRepository.find({
+            relations: ['images']
+        });
 
         return response.json(orphanages);
     },
@@ -18,7 +20,9 @@ export default {
 
         const orphanagesRepository = getRepository(Orphanage);
 
-        const orphanage = await orphanagesRepository.findOneOrFail(id);
+        const orphanage = await orphanagesRepository.findOneOrFail(id, {
+            relations: ['images']
+        });
 
         return response.json(orphanage);
     },
@@ -43,7 +47,7 @@ export default {
 
         const requestImages = request.files as Express.Multer.File[]; // nice lil hack when dealing with multiple-file upload
         const images = requestImages.map(image => {
-            return {path: image.filename}
+            return { path: image.filename }
         })
 
         const orphanage = orphanagesRepository.create({
