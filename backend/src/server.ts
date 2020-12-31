@@ -1,9 +1,8 @@
-
-// O node funciona em um ciclo de REQ // RES
-// .localhost:3333
-import express from 'express';
+import express, { response } from 'express';
+import { getRepository } from 'typeorm' // Repository owns the rules on how to data is created/altered/deleted
 
 import './database/connection';
+import Orphanage from './models/Orphanage';
 
 const app = express(); // helps us deal with REQ 
 
@@ -32,14 +31,35 @@ app.use(express.json());
 // - Route Params: https://localhost:3333/users/1  (identificar um recurso)
 // - Body        : http: https://localhost:333/users/ ==> informacoes complexas
 
-app.get('/users', (request, response) => {
+app.post('/orphanages',async (request, response) => {
 
-    // console.log(request.query);
-    // console.log(request.params);
-    // console.log(request.body);
+    // deconstructing the JSON onto its fields
+    const {
+        name,
+        latitude,
+        longitude,
+        about,
+        instructions,
+        opening_hours,
+        open_on_weekends
+    } = request.body;
+
+    const orphanagesRepository = getRepository(Orphanage);
+
+    const orphanage = orphanagesRepository.create({
+        name,
+        latitude,
+        longitude,
+        about,
+        instructions,
+        opening_hours,
+        open_on_weekends
+    });
+
+    await orphanagesRepository.save(orphanage);
 
     return response.json({ message: 'Hello World' });
-});
+})
 
 app.listen(3333);
 
