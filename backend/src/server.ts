@@ -33,11 +33,9 @@ app.use(express.json());
 
 app.get('/users/:id', (request, response) => {
 
-    console.log(request.query);
-    console.log(request.params);
-    console.log(request.body);
-
-
+    // console.log(request.query);
+    // console.log(request.params);
+    // console.log(request.body);
 
     return response.json({ message: 'Hello World' });
 });
@@ -45,3 +43,6 @@ app.get('/users/:id', (request, response) => {
 
 
 app.listen(3333);
+
+
+// driver nativo, Query builder, ORM --> niveis de abstracoes para manipular BD
