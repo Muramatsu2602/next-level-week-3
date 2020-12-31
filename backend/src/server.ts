@@ -16,7 +16,7 @@ app.use(express.json());
  * - Dados, informacao, parametro
  * RESPONSE:
  * - Como o back vai confirmar/responder
- */ 
+ */
 
 // Rota = conjunto
 // Recurso = usuario
