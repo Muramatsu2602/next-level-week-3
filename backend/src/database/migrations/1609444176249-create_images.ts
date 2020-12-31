@@ -14,7 +14,7 @@ export class createImages1609444176249 implements MigrationInterface {
                     unsigned: true,
                     isPrimary: true,
                     isGenerated: true,
-                    generationStrategy: 'increment',
+                    generationStrategy: 'increment', // auto-increment
                 },
                 {
                     name: 'path',
