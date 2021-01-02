@@ -10,11 +10,11 @@ export class createOrphanages1609381200268 implements MigrationInterface {
             columns: [
                 {
                     name: 'id',
-                    type: 'integer',
+                    type: 'int',
                     unsigned: true,
                     isPrimary: true,
                     isGenerated: true,
-                    generationStrategy: 'increment', // auto-increment
+                    generationStrategy: "increment"
                 },
                 {
                     name: 'name',
@@ -42,7 +42,7 @@ export class createOrphanages1609381200268 implements MigrationInterface {
                 },
                 {
                     name: 'opening_hours',
-                    type: 'varchar', 
+                    type: 'varchar',
                 },
                 {
                     name: 'open_on_weekends',
@@ -54,7 +54,7 @@ export class createOrphanages1609381200268 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        
+
         // DESFAZER O QUE FOI FEITO EM UP
         await queryRunner.dropTable('orphanages');
     }
