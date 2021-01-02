@@ -5,7 +5,7 @@ export class createImages1609444176249 implements MigrationInterface {
 
     // 1:N --> um orfanato tem varias imagens, cada imagem pertence a so um orfanato
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(new Table({ 
+        await queryRunner.createTable(new Table({
             name: "images",
             columns: [
                 {
