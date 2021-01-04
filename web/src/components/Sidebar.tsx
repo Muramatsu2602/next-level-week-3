@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import mapMarkerImg from '../images/map-marker.svg';
 
-import '../styles/components/sidebar.css '
+import '../styles/components/sidebar.css';
 
 export default function Sidebar() {
     const { goBack  } = useHistory();
@@ -18,6 +18,7 @@ export default function Sidebar() {
                     <FiArrowLeft size={24} color="#FFF" />
                 </button>
             </footer>
+            
         </aside>
 
     );
