@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiArrowRight } from 'react-icons/fi';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -8,9 +8,21 @@ import mapMarkerImg from '../images/map-marker.svg';
 
 import '../styles/pages/orphanages-map.css';
 import mapIcon from '../utils/mapIcon';
+import api from '../services/api';
+
 
 
 function OrphanagesMap() {
+    // execute this function when one of the following variables changes its value
+    // like sensitivity list in VHDL
+    let [orphanages, setOrphanages] = useState([]);
+
+    useEffect(() => {
+        api.get('orphanages').then(response => {
+            setOrphanages(response.data);
+        });
+    }, []);
+
     return (
         <div id="page-map">
             <aside>
