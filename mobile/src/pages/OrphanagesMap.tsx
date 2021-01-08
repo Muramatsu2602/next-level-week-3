@@ -4,8 +4,15 @@ import mapMarker from '../images/map-marker.png'
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function OrphanagesMap() {
+  const navigation = useNavigation();
+
+  function handleNavigateToOrphanageDetails() {
+    navigation.navigate('OrphanageDetails');
+  }
+
   return (
     <View style={styles.container}>
       <MapView
@@ -28,7 +35,7 @@ export default function OrphanagesMap() {
             longitude: -49.6401092,
           }}
         >
-          <Callout tooltip={true} onPress={() => { alert('oi') }}>
+          <Callout tooltip={true} onPress={handleNavigateToOrphanageDetails}>
             <View style={styles.calloutContainer}>
               <Text style={styles.calloutText}>Lar das Donzelas</Text>
             </View>
