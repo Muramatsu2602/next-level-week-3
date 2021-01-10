@@ -1,17 +1,14 @@
 import React from 'react';
-
-import './styles/global.css';
-import 'leaflet/dist/leaflet.css';
-
 import Routes from './routes';
 
+import 'leaflet/dist/leaflet.css';
+import './styles/global.css';
 
-function App() {
-  // JSX - Javascript XML --> crazy stuff!
+export default function App() {
   return (
-    <Routes />
+    <div className="App">
+      <Routes />
+    </div>
   );
 }
 
-
-export default App;
