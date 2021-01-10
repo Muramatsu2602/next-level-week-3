@@ -1,96 +1,88 @@
-import { Request, Response } from 'express';
-import { getRepository } from 'typeorm' // Repository owns the rules on how to data is created/altered/deleted
-import orphanageView from '../views/orphanages_view';
+import { Request, Response } from "express";
+import { getRepository } from "typeorm";
 import * as Yup from 'yup';
 
-import Orphanage from '../models/Orphanage';
+import orphanagesView from '../views/orphanages_view';
+import Orphanage from "../models/Orphanage";
 
 export default {
+  async index(request: Request, response: Response) {
+    const orphanagesRepository = getRepository(Orphanage);
+  
+    const orphanages = await orphanagesRepository.find({
+      relations: ['images']
+    });
+  
+    return response.json(orphanagesView.renderMany(orphanages));
+  },
 
-    async index(request: Request, response: Response) {
-        const orphanagesRepository = getRepository(Orphanage);
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
 
-        const orphanages = await orphanagesRepository.find({
-            relations: ['images']
-        });
+    const orphanagesRepository = getRepository(Orphanage);
 
-        return response.json(orphanageView.renderMany(orphanages));
-    },
+    const orphanage = await orphanagesRepository.findOneOrFail(id, {
+      relations: ['images']
+    });
+  
+    return response.json(orphanagesView.render(orphanage));
+  },
 
-    async show(request: Request, response: Response) {
-        const { id } = request.params;
+  async create(request: Request, response: Response) {
+    const {
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,
+    } = request.body;
 
-        const orphanagesRepository = getRepository(Orphanage);
+    const orphanagesRepository = getRepository(Orphanage);
+    const requestImages = request.files as Express.Multer.File[];
 
-        const orphanage = await orphanagesRepository.findOneOrFail(id, {
-            relations: ['images']
-        });
+    const images = requestImages.map(image => {
+      return {
+        path: image.filename,
+      }
+    });
 
-        return response.json(orphanageView.render(orphanage));
-    },
+    const data = {
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,
+      images,
+    };
 
-    async create(request: Request, response: Response) {
-
-        console.log(request.files);
-
-        // deconstructing the JSON onto its fields
-        const {
-            name,
-            latitude,
-            longitude,
-            about,
-            instructions,
-            opening_hours,
-            open_on_weekends,
-            // images
-        } = request.body;
-
-        const orphanagesRepository = getRepository(Orphanage);
-
-        const requestImages = request.files as Express.Multer.File[]; // nice lil hack when dealing with multiple-file upload
-
-        const images = requestImages.map(image => {
-            return { path: image.filename }
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      latitude: Yup.number().required(),
+      longitude: Yup.number().required(),
+      about: Yup.string().required().max(300),
+      instructions: Yup.string().required(),
+      opening_hours: Yup.string().required(),
+      open_on_weekends: Yup.boolean(),
+      images: Yup.array(
+        Yup.object().shape({
+          path: Yup.string().required(),
         })
+      ).required().min(1),
+    });
 
-        const data = {
-            name,
-            latitude,
-            longitude,
-            about,
-            instructions,
-            opening_hours,
-            open_on_weekends: open_on_weekends === 'true',
-            images
-        };
+    await schema.validate(data, {
+      abortEarly: false,
+    });
 
-        const schema = Yup.object().shape({
-            name: Yup.string().required(),
-            latitude: Yup.number().required(),
-            longitude: Yup.number().required(),
-            about: Yup.string().required().max(300),
-            instructions: Yup.string().required(),
-            opening_hours: Yup.string().required(),
-            open_on_weekends: Yup.boolean().required(),
-            images: Yup.array(Yup.object().shape(
-                {
-                    path: Yup.string().required()
-                }
-            ))
-        })
-
-        const finalData = schema.cast(data);
-
-        await schema.validate(data, {
-            abortEarly: false,
-
-        });
-
-        const orphanage = orphanagesRepository.create(finalData);
-
-        await orphanagesRepository.save(orphanage);
-
-        return response.status(201).json(orphanage); // 201 --> algo foi criado
-
-    }
-};
+    const orphanage = orphanagesRepository.create(data);
+  
+    await orphanagesRepository.save(orphanage);
+  
+    return response.status(201)
+      .json(orphanagesView.render(orphanage));
+  }
+}
