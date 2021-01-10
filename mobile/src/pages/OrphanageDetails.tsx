@@ -48,7 +48,7 @@ export default function OrphanageDetails() {
         );
     }
 
-    function handleOpenGooglemapRoutes() {
+    function handleOpenGoogleMapRoutes() {
         Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${orphanage?.latitude},${orphanage?.longitude}`);
     }
 
